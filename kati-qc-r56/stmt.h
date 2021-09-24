@@ -102,7 +102,8 @@ struct AssignStmt : public Stmt {
   virtual string DebugString() const;
 
   Symbol GetLhsSymbol(Evaluator* ev) const;
-
+  bool markDefine;
+  
  private:
   mutable Symbol lhs_sym_cache_;
 };

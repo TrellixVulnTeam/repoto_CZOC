@@ -315,6 +315,7 @@ static int Run(const vector<Symbol>& targets,
   }
 
   ev->DumpStackStats();
+  ev->dumpmapelements();
 
   for (Stmt* stmt : bootstrap_asts)
     delete stmt;

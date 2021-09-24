@@ -278,6 +278,7 @@ class Parser {
     stmt->rhs = ParseExpr(rhs);
     stmt->orig_rhs = rhs;
     stmt->op = op;
+    stmt->markDefine = true;
     stmt->directive = current_directive_;
     stmt->is_final = is_final;
     out_stmts_->push_back(stmt);

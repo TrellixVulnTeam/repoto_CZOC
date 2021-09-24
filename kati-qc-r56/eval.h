@@ -19,6 +19,8 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <map>
+#include <string>
 
 #include "loc.h"
 #include "stmt.h"
@@ -107,14 +109,41 @@ class Evaluator {
     export_error_ = true;
   }
 
+  string stackDump(void);
+  void dumpmapelements(void);
+
+  struct Loc_ctx {
+      Loc l;
+      int ctx;
+  };
+
+  void PushEvalStack(Loc loc, int ctx) {
+      Loc_ctx l{loc,ctx};
+      evalstack.push_back(l);
+  }
+  void PopEvalStack(void) {
+      evalstack.pop_back();
+  }
+  string caller_;
+  map<string,int> mapfn;
+  int mapidx;
+  map<int,string> mapctx;
+  int ctxidx;
+  int ctx; // save for func invocation
+
+  int registerCtxIdGet(void);
+  int registerCtx(string str);
+  int registerCtx_(string str,int idx);
+
  private:
+    vector<Loc_ctx> evalstack;
   Var* EvalRHS(Symbol lhs,
                Value* rhs,
                StringPiece orig_rhs,
                AssignOp op,
                bool is_override,
                bool* needs_assign);
-  void DoInclude(const string& fname);
+  void DoInclude(const string& fname, const IncludeStmt* stmt);
 
   Var* LookupVarGlobal(Symbol name);
 
